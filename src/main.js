@@ -1,45 +1,32 @@
 const puppeteer = require('puppeteer');
-
-(async () => {
-  const browser = await puppeteer.launch({headless: false})
-  const page = await browser.newPage()
-  await page.setViewport({ width: 1280, height: 881});
-  await page.goto('https://www.nike.com.br/snkrs#calendario')
-  
-  const List = await page.evaluate(() => {
-        
-
-    const ListDays = [...document.querySelectorAll('.snkr-release__day')];
-
-    const dayList = ListDays.map(r => {
-        return r
-    });
-
-    const ListMonth = [...document.querySelectorAll('.snkr-release__month')];
-
-    const monthList = ListMonth.map(r => {
-        return r
-    });
-
-    const listName = [...document.querySelectorAll('.snkr-release__bottom .snkr-release__name')];
-
-    const nameList = listName.map(r => {
-        return r
-    });
-
-    Array.from(document.querySelectorAll('.lazy.aspect-radio-box-inside')).forEach((el) => el.classList.remove('aspect-radio-box-inside'));
-
-    const ListImage = ([...document.querySelectorAll('.produto--aviseme .aspect-radio-box-inside')]).map(({src}) => ({src}))
-    console.log(ListImage)
-    const tenis = {
-      img: ListImage,
-      day: dayList,
-      
-    }
-    return tenis;
-  });
-
-  console.log(List);
-
-  // await browser.close()
-})()
+const fs = require('fs');
+const url = 'https://www.nike.com.br/snkrs#calendariol';
+const selector = '.snkr-release.produto.produto--aviseme';
+(async function(){
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.setDefaultNavigationTimeout(0); 
+    await page.goto(url);
+    const recipes = await page.$$eval(selector, nodes => {
+        return nodes.map(node => {
+            const img = node.querySelector('img').getAttribute('data-src');
+            const day = node.querySelector('.snkr-release__day').textContent;
+            const month = node.querySelector('.snkr-release__month').textContent;
+            const hour = node.querySelector('.snkr-release__mobile-date').textContent;
+            const name = node.querySelector('.snkr-release__name').textContent;
+            const arry = {
+                name: name,
+                data: {
+                    day,
+                    month,
+                    hour
+                },
+                img
+        }
+            return arry
+        })
+    });;
+    console.log(recipes)
+    fs.writeFile('./db.json', JSON.stringify(recipes, null, 2), err => err ? console.log(err): null);
+    await browser.close();
+})();
