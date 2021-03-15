@@ -1,6 +1,8 @@
-const express = require('express'); // Adding Express
+const express = require('express');// Adding Express
+var cors = require('cors');
     const app = express(); // Initializing Express
     const puppeteer = require('puppeteer'); // Adding Puppeteer
+    app.use(cors())
 
     const url = 'https://www.nike.com.br/snkrs#calendariol';
     const selector = '.snkr-release.produto.produto--aviseme';
