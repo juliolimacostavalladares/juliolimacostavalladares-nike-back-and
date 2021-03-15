@@ -3,6 +3,10 @@ var cors = require('cors');
     const app = express(); // Initializing Express
     const puppeteer = require('puppeteer'); // Adding Puppeteer
     app.use(cors())
+    app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+    });
 
     const url = 'https://www.nike.com.br/snkrs#calendariol';
     const selector = '.snkr-release.produto.produto--aviseme';
