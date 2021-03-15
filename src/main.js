@@ -9,7 +9,7 @@ const express = require('express'); // Adding Express
     app.get('/', function(req, res) {
 
         // Launching the Puppeteer controlled headless browser and navigate to the Digimon website
-        puppeteer.launch().then(async function(browser) {
+        puppeteer.launch({'args' : ['--no-sandbox', '--disable-setuid-sandbox']}).then(async function(browser) {
             const page = await browser.newPage();
             await page.setDefaultNavigationTimeout(0);  
             await page.goto(url);
