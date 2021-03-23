@@ -1,10 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const puppeteer = require('puppeteer');
 
 const app = express(); 
-
-require('./database');
 
 const Products = require("./Models/Products");
 const {getDataApi} = require("./screping");
