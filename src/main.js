@@ -3,7 +3,6 @@ const cors = require('cors');
 
 const app = express(); 
 
-const Products = require("./Models/Products");
 const {getDataApi} = require("./screping");
 
 
