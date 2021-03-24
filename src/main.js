@@ -14,10 +14,11 @@ const fetchRemoteJobsJob = new CronJob("* * * * *", async () => {
 
     const products = getDataApi().then( result => {
         res.json(result)
+        console.log("Jobs: ", result);
     })
     return products
 });
-  console.log("Jobs: ", getData);
+  
 });
 //You need to explicity start the cronjob 
 fetchRemoteJobsJob.start();
