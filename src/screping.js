@@ -4,7 +4,7 @@ const url = 'https://www.nike.com.br/snkrs#calendariol';
 const selector = '.snkr-release.produto.produto--aviseme';
 
 async function getDataApi() {
-    let browser = await puppeteer.launch({ headless: true });
+    let browser = await puppeteer.launch({ headless: true }, { args: ['--no-sandbox'] });
     let page = await browser.newPage();
     await page.setViewport({ width: 1920, height: 1080 });
     await page.setDefaultNavigationTimeout(0); 
